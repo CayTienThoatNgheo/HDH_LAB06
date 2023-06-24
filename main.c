@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
-// #include "FIFO.h"
+#include "FIFO.h"
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define RESET "\x1B[0m"
@@ -206,7 +206,7 @@ int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choo
         {
         case 1:
         {
-            
+            fifo(&pos, pageFrames);
             add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
             break;
         }
