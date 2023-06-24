@@ -147,7 +147,7 @@ void init_matrix(int numberOfPages, int pageFrames, char (*arr)[numberOfPages])
     {
         for (int j = 0; j < pageFrames + 1; j++)
         {
-            arr[j][i] = ' ';
+            arr[j][i] = '.';
         }
         printf("\n");
     }
@@ -202,28 +202,31 @@ int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choo
             do_change = 1;
             continue;
         }
-        switch (choose)
+        else
         {
-        case 1:
-        {
-            fifo(&pos, pageFrames);
-            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
-            break;
+            switch (choose)
+            {
+            case 1:
+            {
+                pos = fifo(pos, pageFrames);
+                add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
+                break;
+            }
+            case 2:
+            {
+                
+                add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
+                break;
+            }
+            default:
+            {
+                
+                add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
+                break;
+            }
+            }
+            *pageErrors++;
         }
-        case 2:
-        {
-            
-            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
-            break;
-        }
-        default:
-        {
-            
-            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
-            break;
-        }
-        }
-        pageErrors++;
     }
 }
 
