@@ -1,1 +1,7 @@
-void fifo(int *, int);
+#include <stdio.h>
+
+void fifo(int *pos, int pageFrame)
+{
+    *pos ++;
+    *pos = (*pos) % pageFrame;
+}
