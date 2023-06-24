@@ -18,7 +18,6 @@ void choose_algorithm(int *chon_giai_thuat);
 void init_matrix(int so_phan_tu, int so_frame, char(*mang_thay_trang)[*]);
 void out_matrix(int so_phan_tu, int so_frame, char (*mang_thay_trang)[*]);
 int mark_page_fault(int so_phan_tu, int so_frame, int *so_loi_trang, int chon_giai_thuat, char *mang_input, char (*mang_thay_trang)[*]);
-void change_page(int so_phan_tu, int so_frame, char trang_thay_vao, char (*mang_thay_trang)[*], int cot_thay, int *hang_thay, void (*giai_thuat)(int so_phan_tu, int so_frame, char trang_thay_vao, char (*)[*], int cot_thay, int *hang_thay));
 void output(int so_phan_tu, int so_frame, int so_loi_trang, char *mang_input, char (*mang_thay_trang)[*]);
 
 int main(int argc, char* argv[])
@@ -52,7 +51,7 @@ int main(int argc, char* argv[])
     choose_algorithm(&choose);
     
     init_matrix(pageFrames, numberOfPages, arr2);
-    // mark_page_fault(numberOfPages, pageFrames, &pageErrors, choose, arr, arr2);
+    mark_page_fault(numberOfPages, pageFrames, &pageErrors, choose, arr, arr2);
 
     output(numberOfPages, pageFrames, pageErrors, arr, arr2);
 
@@ -165,77 +164,66 @@ void out_matrix(int numberOfPages, int pageFrames, char (*arr)[numberOfPages])
     }
 }
 
-// int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choose, char *arr, char (*arr2)[numberOfPages])
-// {
-//     int x = MIN(numberOfPages, pageFrames);
-//     for (int i = 0; i < x; i++)
-//     for (int j = 0; j < x; j++)
-//     {
-//         if(i == j)
-//         {
-//             arr2[i][i] = arr[i];
-//             arr2[pageFrames + 1][i] = '*';
-//             *pageErrors++;
-//         }
-//         if(j < i)
-//         {
-//             arr2[j][i] = arr2[j][i-1];
-//         }
-//     }
-//
-//     int pos = -1;
-//     int do_change = 1;
-//     for (int i = x; i < numberOfPages; i++)
-//     {
-//         for (int j = 0; j < pageFrames; j++)
-//         {
-//     
-//             if (arr[i] == arr2[j][i])
-//                 do_change = 0;
-//         }
-//         if (!do_change)
-//         {
-//             for (int j = 0; j < pageFrames; j++)
-//             {
-//                 arr2[j][i] = arr2[j][i-1];
-//             }
-//             do_change = 1;
-//             continue;
-//         }
-//         switch (choose)
-//         {
-//         case 1:
-//         {
-//             change_page(numberOfPages, pageFrames, arr[i], arr2, i, &pos, fifo(numberOfPages, pageFrames, arr, arr2, i, &pos));
-//             break;
-//         }
-//         case 2:
-//         {
-//             change_page(numberOfPages, pageFrames, arr[i], arr2, i, &pos, opt(numberOfPages, pageFrames, arr, arr2, i, &pos));
-//         }
-//         default:
-//         {
-//             change_page(numberOfPages, pageFrames, arr[i], arr2, i, &pos, lru(numberOfPages, pageFrames, arr, arr2, i, &pos));
-//             break;
-//         }
-//         }
-//         pageErrors++;
-//     }
-// }
-
-void change_page(int numberOfPages, int pageFrames, char arr, char (*arr2)[numberOfPages], int pos_column, int *pos_row, void (*algorithm)(int, int, char, char (*)[*], int, int *))
+int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choose, char *arr, char (*arr2)[numberOfPages])
 {
-    algorithm(numberOfPages, pageFrames, arr, arr2, pos_column, *pos_row);
-    for (int i = 0; i < pageFrames; i++)
+    int x = MIN(numberOfPages, pageFrames);
+    for (int i = 0; i < x; i++)
+    for (int j = 0; j < x; j++)
     {
-        if (i == *pos_row)
+        if(i == j)
         {
-            arr2[i][pos_column] = arr;
+            arr2[i][i] = arr[i];
+            arr2[pageFrames + 1][i] = '*';
+            *pageErrors++;
+        }
+        if(j < i)
+        {
+            arr2[j][i] = arr2[j][i-1];
+        }
+    }
+
+    int pos = -1;
+    int do_change = 1;
+    for (int i = x; i < numberOfPages; i++)
+    {
+        for (int j = 0; j < pageFrames; j++)
+        {
+    
+            if (arr[i] == arr2[j][i])
+                do_change = 0;
+        }
+        if (!do_change)
+        {
+            for (int j = 0; j < pageFrames; j++)
+            {
+                arr2[j][i] = arr2[j][i-1];
+            }
+            do_change = 1;
             continue;
         }
-        arr2[i][pos_column] = arr2[i][pos_column - 1];
+        switch (choose)
+        {
+        case 1:
+        {
+            
+            break;
+        }
+        case 2:
+        {
+            
+            break;
+        }
+        default:
+        {
+            
+            break;
+        }
+        }
+        pageErrors++;
     }
 }
+
+void add_page();
 
 void output(int numberOfPages, int pageFrames, int pageErrors, char *arr, char (*arr2)[numberOfPages])
 {
