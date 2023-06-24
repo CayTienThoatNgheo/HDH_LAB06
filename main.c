@@ -18,6 +18,7 @@ void choose_algorithm(int *chon_giai_thuat);
 void init_matrix(int so_phan_tu, int so_frame, char(*mang_thay_trang)[*]);
 void out_matrix(int so_phan_tu, int so_frame, char (*mang_thay_trang)[*]);
 int mark_page_fault(int so_phan_tu, int so_frame, int *so_loi_trang, int chon_giai_thuat, char *mang_input, char (*mang_thay_trang)[*]);
+void add_page(int so_phan_tu, int so_frame, int hang_can_thay, int cot_can_thay, char phan_tu_thay, char (*mang_thay_trang)[*]);
 void output(int so_phan_tu, int so_frame, int so_loi_trang, char *mang_input, char (*mang_thay_trang)[*]);
 
 int main(int argc, char* argv[])
@@ -206,16 +207,19 @@ int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choo
         case 1:
         {
             
+            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
             break;
         }
         case 2:
         {
             
+            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
             break;
         }
         default:
         {
             
+            add_page(numberOfPages, pageFrames, pos, i, arr[i], arr2);
             break;
         }
         }
@@ -223,7 +227,14 @@ int mark_page_fault(int numberOfPages, int pageFrames, int *pageErrors, int choo
     }
 }
 
-void add_page();
+void add_page(int numberOfPages, int pageFrames, int pos, int column, char arr, char (*arr2)[numberOfPages])
+{
+    for (int i = 0; i < pageFrames; i++)
+    {
+        arr2[i][column] = arr2[i][column - 1];
+    }
+    arr2[pos][column] = arr;
+}
 
 void output(int numberOfPages, int pageFrames, int pageErrors, char *arr, char (*arr2)[numberOfPages])
 {
